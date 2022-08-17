@@ -1,0 +1,59 @@
+@charset 'utf-8';
+
+html {
+  font-family: 'Gaegu', cursive;
+  font-size: 12px;
+}
+body {
+  overflow-x: hidden;
+  color: black;
+  background: white;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 100vh;
+}
+.logo-title {
+  font-size: 2rem;
+  text-align: center;
+}
+.btn {
+  font-size: 2rem;
+  padding: 0.8em 1.2em;
+  border: 3px solid gold;
+  border-radius: 0.5em;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.btn-guest {
+  color: black;
+}
+.btn:focus {
+  outline: none;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: gold;
+  top: 0;
+  left: -100%;
+  transition: all 0.4s;
+  z-index: -1;
+}
+.btn:hover::before {
+  transform: translateX(100%);
+}
+/* .btn:hover {
+  color: black;
+} */
