@@ -7,7 +7,11 @@ html {
 body {
   overflow-x: hidden;
   color: black;
-  background: white;
+  background: #f3f2f0;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
 .logo {
   display: flex;
@@ -24,7 +28,7 @@ body {
 .btn {
   font-size: 2rem;
   padding: 0.8em 1.2em;
-  border: 3px solid gold;
+  border: 3px solid #204630;
   border-radius: 0.5em;
   background-color: transparent;
   text-transform: uppercase;
@@ -45,7 +49,7 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: gold;
+  background-color: #204630;
   top: 0;
   left: -100%;
   transition: all 0.4s;
@@ -54,6 +58,60 @@ body {
 .btn:hover::before {
   transform: translateX(100%);
 }
-/* .btn:hover {
-  color: black;
-} */
+.btn:hover {
+  color: #f3f2f0;
+}
+header h1{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  padding: 1rem 0;
+  text-align: center;
+}
+.nav-categories {
+  position: fixed;
+  display: flex;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  padding: 1rem;
+  border-bottom: 1px solid black;
+}
+.nav-item {
+  justify-content: space-around;
+  margin: 0 auto;
+}
+table.board, table.diary {
+  position: relative;
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-radius: 0.5em;
+  border-style: hidden;
+  box-shadow: 0 0 0 1px white;
+  background: white;
+  top: 100px;
+  width: 100%;
+  margin: 1em 0;
+}
+.board thead td{
+  padding: 1rem;
+  padding-bottom: 0;
+}
+.board-date {
+  text-align: right;
+}
+.board tbody td {
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid black;
+}
+.board tfoot td {
+  padding: 1rem;
+  padding-right: 0;
+}
+.board tfoot span {
+  padding: 0.5rem;
+}
