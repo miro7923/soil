@@ -115,3 +115,39 @@ table.board, table.diary {
 .board tfoot span {
   padding: 0.5rem;
 }
+table.diary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+.diary thead td{
+  padding: 1rem;
+  align-items: center;
+}
+.diary thead span {
+  padding-left: 1rem;
+}
+.diary tbody {
+  padding: 1rem;
+  width: 100%;
+  overflow: hidden;
+}
+.diary tbody h3 {
+  font-weight: 500;
+}
+.diary tbody td {
+  padding: 0.3rem 0;
+}
+.diary tbody .content {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.5;
+  text-align: left;
+  word-wrap: break-word;
+}
