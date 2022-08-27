@@ -1,7 +1,9 @@
 package august.soil.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Diary {
 
     @Id @GeneratedValue
@@ -28,10 +31,12 @@ public class Diary {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)
+    @JsonIgnore
     private Member member;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnore
     private Category category;
 
     @Column(nullable = false)

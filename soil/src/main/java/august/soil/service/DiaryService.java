@@ -32,8 +32,8 @@ public class DiaryService {
      * 일기 전체 조회
      * @return List<Diary>
      */
-    public List<Diary> findDiaries() {
-        return diaryRepository.findAll();
+    public List<Diary> findDiaries(Long id) {
+        return diaryRepository.findAll(id);
     }
 
     /**

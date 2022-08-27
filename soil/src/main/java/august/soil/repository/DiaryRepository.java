@@ -23,8 +23,9 @@ public class DiaryRepository {
         return em.find(Diary.class, id);
     }
 
-    public List<Diary> findAll() {
-        return em.createQuery("select d from Diary d", Diary.class)
+    public List<Diary> findAll(Long id) {
+        return em.createQuery("select d from Diary d where d.member.id = :member_id", Diary.class)
+                .setParameter("member_id", id)
                 .getResultList();
     }
 

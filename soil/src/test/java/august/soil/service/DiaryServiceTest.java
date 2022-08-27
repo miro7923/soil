@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -38,5 +40,18 @@ class DiaryServiceTest {
 
         // then
         Assertions.assertEquals(diary, diaryRepository.findOne(uploadId));
+    }
+
+    @Test
+    public void 일기목록조회() throws Exception {
+        // given
+        List<Diary> diaries = diaryService.findDiaries(5L);
+
+        // when
+        for (Diary d : diaries) {
+            System.out.println(d.toString());
+        }
+
+        // then
     }
 }
