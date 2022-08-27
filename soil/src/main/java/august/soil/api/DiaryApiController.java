@@ -4,7 +4,7 @@ import august.soil.domain.Category;
 import august.soil.domain.Diary;
 import august.soil.domain.Member;
 import august.soil.dto.DiaryDto;
-import august.soil.dto.Result;
+import august.soil.dto.DiariesResult;
 import august.soil.service.CategoryService;
 import august.soil.service.DiaryService;
 import august.soil.service.MemberService;
@@ -30,7 +30,7 @@ public class DiaryApiController {
      * @return id에 해당하는 회원의 일기 전체 목록
      */
     @GetMapping("/diaries/{id}")
-    public Result diaries(@PathVariable Long id) {
+    public DiariesResult diaries(@PathVariable Long id) {
         List<Diary> findDiaries = diaryService.findDiaries(id);
         Member findMember = memberService.findMember(id);
         Category findCategory = categoryService.findCategory(1L);
@@ -45,6 +45,6 @@ public class DiaryApiController {
                         d.getPrice()))
                 .collect(Collectors.toList());
 
-        return new Result(collect.size(), collect);
+        return new DiariesResult(collect.size(), collect);
     }
 }
