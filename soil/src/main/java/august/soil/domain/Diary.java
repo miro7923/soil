@@ -1,11 +1,10 @@
 package august.soil.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.*;
@@ -29,20 +28,15 @@ public class Diary {
     }
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
     private LocalDateTime date;
     private String photo;
     private int price;

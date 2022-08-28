@@ -33,7 +33,7 @@ public class MemberService {
      * @param member
      */
     private void validateDuplicatedMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
+        List<Member> findMembers = memberRepository.findByName(member.getLoginId());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
@@ -42,26 +42,32 @@ public class MemberService {
     /**
      * id로 회원 한 명 조회
      * @param id
-     * @return member_id
+     * @return 회원의 DB 인덱스
      */
     public Member findMember(Long id) {
         return memberRepository.findOne(id);
     }
 
     /**
-     * name으로 회원 한 명 조회
-     * @param name
-     * @return List<Member>
+     * loginId로 회원 조회
+     * @param loginId
+     * @return 해당하는 회원
      */
-    public List<Member> findByName(String name) {
-        return memberRepository.findByName(name);
+    public List<Member> findByName(String loginId) {
+        return memberRepository.findByName(loginId);
     }
 
     /**
      * 회원 전체 조회
-     * @return List<Member>
+     * @return 가입된 회원 전체 목록
      */
     public List<Member> findMembers() {
         return memberRepository.findAll();
+    }
+
+    @Transactional
+    public void update(Long id, String password) {
+        Member member = memberRepository.findOne(id);
+        member.setPassword(password);
     }
 }

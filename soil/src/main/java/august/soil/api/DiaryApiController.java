@@ -26,13 +26,13 @@ public class DiaryApiController {
 
     /**
      * 회원 한 명의 일기 목록을 응답
-     * @param id
+     * @param member_id
      * @return id에 해당하는 회원의 일기 전체 목록
      */
-    @GetMapping("/diaries/{id}")
-    public DiariesResult diaries(@PathVariable Long id) {
-        List<Diary> findDiaries = diaryService.findDiaries(id);
-        Member findMember = memberService.findMember(id);
+    @GetMapping("/diaries/{member_id}")
+    public DiariesResult diaries(@PathVariable Long member_id) {
+        List<Diary> findDiaries = diaryService.findDiaries(member_id);
+        Member findMember = memberService.findMember(member_id);
         Category findCategory = categoryService.findCategory(1L);
 
         List<DiaryDto> collect = findDiaries.stream()
