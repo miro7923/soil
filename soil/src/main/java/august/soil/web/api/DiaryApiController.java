@@ -1,4 +1,4 @@
-package august.soil.api;
+package august.soil.web.api;
 
 import august.soil.domain.Category;
 import august.soil.domain.Diary;

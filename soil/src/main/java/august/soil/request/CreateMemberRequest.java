@@ -1,4 +1,4 @@
-package august.soil.dto;
+package august.soil.request;
 
 import lombok.Data;
 

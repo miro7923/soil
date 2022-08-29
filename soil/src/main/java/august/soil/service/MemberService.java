@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,8 @@ public class MemberService {
      * @param member
      */
     private void validateDuplicatedMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getLoginId());
-        if (!findMembers.isEmpty()) {
+        Optional<Member> findMember = memberRepository.findByLoginId(member.getLoginId());
+        if (!findMember.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
@@ -53,8 +54,8 @@ public class MemberService {
      * @param loginId
      * @return 해당하는 회원
      */
-    public List<Member> findByName(String loginId) {
-        return memberRepository.findByName(loginId);
+    public Optional<Member> findByName(String loginId) {
+        return memberRepository.findByLoginId(loginId);
     }
 
     /**

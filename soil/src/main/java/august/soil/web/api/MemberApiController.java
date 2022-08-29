@@ -1,7 +1,11 @@
-package august.soil.api;
+package august.soil.web.api;
 
 import august.soil.domain.Member;
 import august.soil.dto.*;
+import august.soil.request.CreateMemberRequest;
+import august.soil.request.UpdateMemberRequest;
+import august.soil.response.CreateMemberResponse;
+import august.soil.response.UpdateMemberResponse;
 import august.soil.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +59,7 @@ public class MemberApiController {
     public MemberDto getMember(@PathVariable("member_id") Long id) {
         Member findMember = memberService.findMember(id);
 
-        return new MemberDto(findMember.getLoginId());
+        return new MemberDto(findMember.getId(), findMember.getLoginId());
     }
 
     /**
@@ -66,7 +70,7 @@ public class MemberApiController {
     public MemberResult getMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
-                .map(m -> new MemberDto(m.getLoginId()))
+                .map(m -> new MemberDto(m.getId(), m.getLoginId()))
                 .collect(Collectors.toList());
 
         return new MemberResult(findMembers.size(), collect);
