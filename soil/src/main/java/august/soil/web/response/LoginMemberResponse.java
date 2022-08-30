@@ -1,4 +1,4 @@
-package august.soil.response;
+package august.soil.web.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

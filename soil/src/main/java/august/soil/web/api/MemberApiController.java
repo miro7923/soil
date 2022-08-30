@@ -1,12 +1,13 @@
 package august.soil.web.api;
 
 import august.soil.domain.Member;
-import august.soil.dto.*;
-import august.soil.request.CreateMemberRequest;
-import august.soil.request.UpdateMemberRequest;
-import august.soil.response.CreateMemberResponse;
-import august.soil.response.UpdateMemberResponse;
+import august.soil.web.request.CreateMemberRequest;
+import august.soil.web.request.UpdateMemberRequest;
+import august.soil.web.response.CreateMemberResponse;
+import august.soil.web.response.UpdateMemberResponse;
 import august.soil.service.MemberService;
+import august.soil.web.dto.MemberDto;
+import august.soil.web.dto.MemberResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,7 +67,7 @@ public class MemberApiController {
      * 회원 전체 목록 조회
      * @return 가입된 회원 전체의 login id
      */
-    @GetMapping("/members")
+    @GetMapping("/members/list")
     public MemberResult getMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()

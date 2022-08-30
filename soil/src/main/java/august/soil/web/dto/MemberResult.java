@@ -1,4 +1,4 @@
-package august.soil.dto;
+package august.soil.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
