@@ -18,7 +18,7 @@ public class DiaryDto {
     private String content;
     @NotEmpty
     private LocalDateTime date;
-    private String photo;
+//    private String photo;
     @NotEmpty
     private int price;
 }

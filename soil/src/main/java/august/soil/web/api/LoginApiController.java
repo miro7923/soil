@@ -7,6 +7,8 @@ import august.soil.service.LoginService;
 import august.soil.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +26,11 @@ public class LoginApiController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public LoginMemberResponse login(@RequestBody @Valid LoginMemberRequest param, HttpServletResponse response,
-                                     HttpServletRequest request) {
+    public ResponseEntity<LoginMemberResponse> login(@RequestBody @Valid LoginMemberRequest param, HttpServletResponse response,
+                                HttpServletRequest request) {
         Member loginMember = loginService.login(param.getLoginId(), param.getPassword());
         if (loginMember == null) {
-            return new LoginMemberResponse(-1, "존재하지 않는 회원이거나 비밀번호가 일치하지 않습니다.");
+            return new ResponseEntity<LoginMemberResponse>(new LoginMemberResponse(-1, "존재하지 않는 회원이거나 비밀번호가 일치하지 않습니다."), HttpStatus.BAD_REQUEST);
         } else {
             // 로그인 성공 처리
             // 세션이 있으면 세션 반환, 없으면 신규 세션 생성
@@ -36,7 +38,7 @@ public class LoginApiController {
             // 세션에 로그인 회원 정보 보관
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
-            return new LoginMemberResponse(1, "로그인 성공");
+            return new ResponseEntity<LoginMemberResponse>(new LoginMemberResponse(1, "로그인 성공"), HttpStatus.OK);
         }
     }
 
@@ -46,6 +48,6 @@ public class LoginApiController {
         if (session != null) {
             session.invalidate();
         }
-        return new LoginMemberResponse(1, "로그아웃 성공");
+        return new LoginMemberResponse(200, "로그아웃 성공");
     }
 }

@@ -9,6 +9,7 @@ import august.soil.service.CategoryService;
 import august.soil.service.DiaryService;
 import august.soil.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DiaryApiController {
@@ -41,7 +43,7 @@ public class DiaryApiController {
                         d.getTitle(),
                         d.getContent(),
                         d.getDate(),
-                        d.getPhoto(),
+//                        d.getPhoto(),
                         d.getPrice()))
                 .collect(Collectors.toList());
 
