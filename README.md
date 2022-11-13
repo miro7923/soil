@@ -4,7 +4,7 @@
 * 환경 : 안드로이드 웹뷰, RESTful API
 * 개발 툴 : IntelliJ IDEA, MySQL Workbench 8.0.20
 * 사용 언어 : Java 11, MySQL 8
-* 사용 기술 : Spring Boot 5, JPA, Gradle, Open API(네이버 로그인 API), Swagger
+* 사용 기술 : Spring Boot, JPA, Gradle, Open API(네이버 로그인 API), Swagger
 
 # 프로젝트 상세 내용
 ## 주제
