@@ -17,6 +17,9 @@ import java.util.function.Function;
 import static com.google.common.base.Preconditions.*;
 import static org.apache.commons.lang3.ClassUtils.isAssignable;
 
+/**
+ * 인가(Authorization)를 요청받은 사용자에 대해서 적합한 권한을 가지고 있는지 확인 후 인가 허용을 결정하는 컴포넌트
+ */
 public class ConnectionBasedVoter implements AccessDecisionVoter<FilterInvocation> {
   
   private final RequestMatcher requiresAuthorizationRequestMatcher;
@@ -33,6 +36,13 @@ public class ConnectionBasedVoter implements AccessDecisionVoter<FilterInvocatio
     this.idExtractor = idExtractor;
   }
   
+  /**
+   * 주어진 정보를 바탕으로 이 사용자를 인가해도 되는지 확인한 후 접근 권한을 부여하거나 거절/보류한다.
+   * @param authentication the caller making the invocation
+   * @param fi the secured object being invoked
+   * @param attributes the configuration attributes associated with the secured object
+   * @return 접근 권한 부여/거절/보류
+   */
   @Override
   public int vote(Authentication authentication, FilterInvocation fi, Collection<ConfigAttribute> attributes) {
     HttpServletRequest request = fi.getRequest();

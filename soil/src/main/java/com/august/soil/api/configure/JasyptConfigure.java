@@ -8,21 +8,12 @@ import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
-/**
- * application.yml 에서 JWT 설정 정보를 읽어온다.
- */
 @Component
-@ConfigurationProperties(prefix = "jwt.token")
+@ConfigurationProperties(prefix = "jasypt.encryptor")
 @Getter @Setter
-public class JwtTokenConfigure {
+public class JasyptConfigure {
   
-  private String header;
-  
-  private String issuer;
-  
-  private String clientSecret;
-  
-  private int expirySeconds;
+  private String password;
   
   @Override
   public String toString() {

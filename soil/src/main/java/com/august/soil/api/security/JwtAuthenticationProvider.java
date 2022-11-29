@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * {@link org.springframework.security.authentication.ProviderManager#providers} 목록에 포함되 있다.
+ * UserService를 통해 사용자 정보를 데이터베이스에서 조회 후 실질적인 사용자 인증 처리 로직 수행 및 JWT 생성
+ * 인증 결과는 JwtAuthenticationToken 타입으로 반환한다.
  */
 @RequiredArgsConstructor
 @Slf4j

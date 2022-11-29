@@ -7,6 +7,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
+/**
+ * 인증 요청에 따른 응답을 반환할 때 사용할 DTO
+ */
 @Getter
 public class AuthenticationResult {
   

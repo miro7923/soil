@@ -8,21 +8,20 @@ import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
-/**
- * application.yml 에서 JWT 설정 정보를 읽어온다.
- */
 @Component
-@ConfigurationProperties(prefix = "jwt.token")
+@ConfigurationProperties(prefix = "cloud.aws.s3")
 @Getter @Setter
-public class JwtTokenConfigure {
+public class AwsConfigure {
   
-  private String header;
+  private String accessKey;
   
-  private String issuer;
+  private String secretKey;
   
-  private String clientSecret;
+  private String region;
   
-  private int expirySeconds;
+  private String url;
+  
+  private String bucketName;
   
   @Override
   public String toString() {

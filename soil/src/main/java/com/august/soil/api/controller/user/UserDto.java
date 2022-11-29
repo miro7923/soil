@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
+/**
+ * API 응답 결과로 리턴할 때 사용할 DTO
+ * 때문에 Swagger에는 이 클래스의 필드를 기준으로 작성되어야 한다.
+ * @ApiModelProperty 어노테이션의 필드에 데이터를 작성하면 Swagger 문서에 반영된다.
+ */
 @NoArgsConstructor
 @Getter @Setter
 public class UserDto {

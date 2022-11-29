@@ -16,6 +16,9 @@ import java.util.Date;
 
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
+/**
+ * JWT 인증에 필요한 정보를 담은 클래스
+ */
 @Getter
 public class Jwt {
   

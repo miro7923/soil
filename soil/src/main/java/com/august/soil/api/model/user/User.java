@@ -1,12 +1,12 @@
 package com.august.soil.api.model.user;
 
 import com.august.soil.api.security.Jwt;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,9 +15,13 @@ import static java.time.LocalDateTime.*;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
+/**
+ * 사용자 정보를 표현하는 클래스로 새 토큰의 발급을 처리할 수 있는 비즈니스 로직을 담고 있다.
+ */
 @Entity
 @Getter
-public class User {
+@Builder
+public class User implements Serializable {
 
   @Id @GeneratedValue
   @Column(name = "user_id")
@@ -29,6 +33,7 @@ public class User {
   @Column(name = "name")
   private String name;
   
+  // @Embedded를 통해 Email 클래스를 값 타입으로 매핑한다.
   @Column(name = "email")
   @Embedded
   private final Email email;
@@ -88,44 +93,5 @@ public class User {
   @Override
   public String toString() {
     return reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-  
-  @AllArgsConstructor
-  @NoArgsConstructor
-  static public class Builder {
-    private Long id;
-    private SnsType snsType;
-    private String name;
-    private Email email;
-    private LocalDateTime createAt;
-    
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-
-    public Builder snsType(SnsType snsType) {
-      this.snsType = snsType;
-      return this;
-    }
-
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public Builder email(Email email) {
-      this.email = email;
-      return this;
-    }
-
-    public Builder createAt(LocalDateTime createAt) {
-      this.createAt = createAt;
-      return this;
-    }
-    
-    public User build() {
-      return new User(id, snsType, name, email, createAt);
-    }
   }
 }

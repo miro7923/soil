@@ -17,17 +17,25 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Service
 @RequiredArgsConstructor
+// 기본은 readonly true로 설정하되, save 메서드와 같이 트랜젝션 변경이 필요한 메서드에 대해서만 readonly false로 설정한다.
 @Transactional(readOnly = true)
 public class UserService {
 
   private final UserRepository userRepository;
-    
+  
+  /**
+   * 사용자 로그인 처리
+   * @param email 로그인 할 사용자 이메일
+   * @param resultcode 네이버 로그인 API에 사용자 정보 요청 결과로 받은 응답 코드
+   * @return 로그인 된 사용자 객체
+   */
   public User login(Email email, String resultcode) {
-    // 사용자 정보 API 접근 성공시 응답 샘플
-    // "resultcode": "00",
-    //  "message": "success"
-    // TODO : 회원 인증 정보로 비밀번호 대신 네이버 회원정보 API 응답 결과 코드를 이용함
-    // 회원정보 API 응답 성공시 받는 "00" 외에는 다 로그인 거절 처리 예정
+    /**
+     * 사용자 정보 API 접근 성공시 응답 샘플
+     * "resultcode": "00",
+     * "message": "success"
+     * 회원정보 API 응답 성공시 받는 "00" 외에는 다 로그인 거절 처리
+     */
     checkArgument(resultcode != null, "resultcode must be provided.");
   
     if (!resultcode.equals("00")) {
@@ -41,8 +49,8 @@ public class UserService {
   /**
    * 회원 등록
    * 중복 회원 검사 후 통과하면 다음 트랜잭션 진행
-   * @param user
-   * @return member_id
+   * @param user 가입처리 할 사용자 객체
+   * @return 가입된 사용자 객체
    */
   @Transactional
   public User join(User user) {
@@ -52,7 +60,7 @@ public class UserService {
 
   /**
    * 중복 회원 검사
-   * @param user
+   * @param user 중복검사를 진행할 사용자 객체
    */
   private void validateDuplicatedMember(User user) {
     Optional<User> findMember = userRepository.findByEmail(user.getEmail());
@@ -62,9 +70,9 @@ public class UserService {
   }
 
   /**
-   * id로 회원 한 명 조회
-   * @param id
-   * @return Optional<User>
+   * PK로 회원 한 명 조회
+   * @param id 조회할 회원의 PK
+   * @return Optional로 감싼 회원 객체
    */
   public Optional<User> findById(Id<User, Long> id) {
         return userRepository.findById(id);
@@ -72,8 +80,8 @@ public class UserService {
   
   /**
    * Email로 회원 한 명 조회
-   * @param email
-   * @return Optional<User>
+   * @param email 조회할 회원 이메일
+   * @return Optional로 감싼 회원 객체
    */
   public Optional<User> findByEmail(Email email) {
     checkArgument(email != null, "email must be provided.");
@@ -83,7 +91,7 @@ public class UserService {
 
   /**
    * 회원 전체 조회
-   * @return List<User>
+   * @return 전체 회원 리스트
    */
   public List<User> findUsers() {
         return userRepository.findAll();
@@ -91,8 +99,8 @@ public class UserService {
   
   /**
    * 회원 정보를 업데이트하는 메서드로 소셜 로그인을 사용하기 때문에 email은 불변일 것으로 보여 이름만 수정 가능하게 함(개명했을 경우)
-   * @param id, newName
-   * @return
+   * @param id 업데이트 할 회원의 PK
+   * @param newName 업데이트 할 이름
    */
   @Transactional
   public void update(Id<User, Long> id, String newName) {

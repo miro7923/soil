@@ -1,11 +1,11 @@
 package com.august.soil.api.model.user;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -13,9 +13,14 @@ import static java.util.regex.Pattern.matches;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
+/**
+ * 사용자 email의 유효성 검증과 비즈니스 로직 사용의 편의성을 위해 따로 선언
+ * @Embeddable을 통해 User 클래스와 값 타입으로 매핑된다.
+ */
 @Getter
 @Embeddable
-public class Email {
+@Builder
+public class Email implements Serializable {
 
   private final String email;
   
@@ -23,6 +28,7 @@ public class Email {
     email = null;
   }
 
+  // 객체 생성 전에 유효성 검증이 먼저 이뤄진 후 생성될 수 있도록 한다.
   public Email(String email) {
     checkArgument(isNotEmpty(email), "address must be provided.");
     checkArgument(
@@ -66,20 +72,5 @@ public class Email {
   @Override
   public String toString() {
     return reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-  
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class Builder {
-    private String email;
-
-    public Builder email(String email) {
-      this.email = email;
-      return this;
-    }
-
-    public Email build() {
-      return new Email(email);
-    }
   }
 }

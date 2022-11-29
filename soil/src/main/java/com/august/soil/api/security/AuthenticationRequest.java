@@ -6,6 +6,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import static org.apache.commons.lang3.builder.ToStringBuilder.*;
 
+/**
+ * 인증을 요청할 때 사용하는 DTO
+ */
 @Getter
 @AllArgsConstructor
 public class AuthenticationRequest {

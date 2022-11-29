@@ -1,23 +1,23 @@
 package com.august.soil.api.model.post;
 
 import com.august.soil.api.model.user.User;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.google.common.base.Preconditions.*;
-import static java.time.LocalDateTime.*;
-import static javax.persistence.FetchType.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.time.LocalDateTime.now;
+import static javax.persistence.FetchType.LAZY;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 @Entity
 @Getter
+@Builder
 public class Post {
 
   @Id @GeneratedValue
@@ -68,44 +68,5 @@ public class Post {
   @Override
   public String toString() {
     return reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @AllArgsConstructor
-  @NoArgsConstructor
-  static public class Builder {
-    private Long id;
-    private User user;
-    private String content;
-    private LocalDateTime createAt;
-    private int readcount;
-
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-
-    public Builder user(User user) {
-      this.user = user;
-      return this;
-    }
-
-    public Builder content(String content) {
-      this.content = content;
-      return this;
-    }
-
-    public Builder createAt(LocalDateTime createAt) {
-      this.createAt = createAt;
-      return this;
-    }
-
-    public Builder readcount(int readcount) {
-      this.readcount = readcount;
-      return this;
-    }
-
-    public Post build() {
-      return new Post(id, user, content, createAt, readcount);
-    }
   }
 }

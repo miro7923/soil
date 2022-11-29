@@ -13,7 +13,7 @@ public interface DiaryRepository {
   
   Optional<Diary> findById(Id<Diary, Long> id);
   
-  List<Diary> findAll(Id<User, Long> id);
+  List<Diary> findAll(Id<User, Long> id, int offset, int limit);
   
   List<Diary> findByTitle(String title);
   

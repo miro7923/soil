@@ -2,22 +2,25 @@ package com.august.soil.api.model.category;
 
 import com.august.soil.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-
+import java.io.Serializable;
 import java.util.Objects;
 
-import static com.google.common.base.Preconditions.*;
-import static javax.persistence.FetchType.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static javax.persistence.FetchType.LAZY;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
+/**
+ * 모든 model 클래스는 JPA 영속성 컨텍스트를 통해 관리하기 때문에 이에 대한 이해가 없으면 코드를 보기 어려울 수 있다.
+ */
 @Entity
 @Getter
-public class Category {
+@Builder
+public class Category implements Serializable {
 
   @Id @GeneratedValue
   @Column(name = "category_id")
@@ -40,7 +43,13 @@ public class Category {
   public Category(User user, String name) {
       this(null, user, name);
   }
-
+  
+  /**
+   * 생성자 단계에서 유효성 검증 후 객체가 생성될 수 있도록 함
+   * @param id 카테고리 PK
+   * @param user 회원정보를 담은 객체
+   * @param name 새로 생성될 카테고리의 이름
+   */
   public Category(Long id, User user, String name) {
     checkArgument(user != null, "user must be provided.");
     checkArgument(name != null, "name must be provided.");
@@ -71,32 +80,5 @@ public class Category {
   @Override
   public String toString() {
     return reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @AllArgsConstructor
-  @NoArgsConstructor
-  static public class Builder {
-    private Long id;
-    private User user;
-    private String name;
-
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-
-    public Builder user(User user) {
-      this.user = user;
-      return this;
-    }
-
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public Category build() {
-      return new Category(id, user, name);
-    }
   }
 }

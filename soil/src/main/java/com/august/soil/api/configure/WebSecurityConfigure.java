@@ -35,6 +35,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Spring Security 설정정보를 담은 컴포넌트
+ * SecurityFilterChain을 통해 접근 주체의 권한을 파악한 뒤 접근을 허용하거나 거절한다.
+ */
 @Component
 @EnableWebSecurity
 @RequiredArgsConstructor
