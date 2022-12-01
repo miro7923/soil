@@ -4,7 +4,7 @@
 * 환경 : 안드로이드 웹뷰, RESTful API
 * 개발 툴 : IntelliJ IDEA, MySQL Workbench 8.0.20
 * 사용 언어 : Java 11, MySQL 8
-* 사용 기술 : Spring Boot, JPA, Gradle, Open API(네이버 로그인 API), Swagger
+* 사용 기술 : Spring Boot, JPA, Gradle, Open API(네이버 로그인 API), AWS(EC2, RDS, S3), Swagger
 
 # 프로젝트 상세 내용
 ## 주제
@@ -27,7 +27,9 @@
     - 회원가입, 로그인 처리(개발완료)
     - 소셜로그인 기능(개발완료)
     - 일기 CRUD(개발완료)
-    - 파일 업로드 기능
+    - 키워드로 게시글 검색 기능(개발완료)
+    - AWS S3로 파일 업로드 기능(개발완료)
+    - AWS EC2로 서버 배포(개발완료)
 * Spring Security와 JWT Token을 적용한 사용자 인증/인가 시스템 개발(개발완료)
 ```
 
