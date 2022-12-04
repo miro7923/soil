@@ -33,6 +33,7 @@
     - AWS EC2로 서버 배포(개발완료)
 * Spring Security와 JWT Token을 적용한 사용자 인증/인가 시스템 개발(개발완료)
 * 앱 푸시
+* CI/CD
 ```
 
 # ERD 다이어그램
