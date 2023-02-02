@@ -59,7 +59,28 @@ public class JpaDiaryRepository implements DiaryRepository {
       .setMaxResults(limit)
       .getResultList();
   }
-
+  
+  /**
+   * 사용자 한 명이 작성한 일기에서 검색어로 검색한 일기만 조회하는 메서드
+   * @param id 사용자 PK
+   * @param keyword 검색어
+   * @param offset 페이지 번호(페이징 offset)
+   * @param limit 조회할 최대 갯수
+   * @return List<Diary> 사용자 PK로 찾은 일기 리스트
+   */
+  @Override
+  public List<Diary> findAllByKeyword(Id<User, Long> id, String keyword, int offset, int limit) {
+    return em.createQuery("SELECT d " +
+                            "FROM Diary d " +
+                            "WHERE d.user.id = :user_id and " +
+                            "(d.title LIKE :keyword or d.content LIKE :keyword)", Diary.class)
+      .setParameter("user_id", id.getValue())
+      .setParameter("keyword", "%" + keyword + "%")
+      .setFirstResult(offset)
+      .setMaxResults(limit)
+      .getResultList();
+  }
+  
   /**
    * 일기 주제(상품)로 일기 목록을 찾는 메서드
    * @param title 일기 주제(상품명)

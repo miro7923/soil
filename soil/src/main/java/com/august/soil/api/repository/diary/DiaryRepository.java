@@ -18,4 +18,6 @@ public interface DiaryRepository {
   List<Diary> findByTitle(String title);
   
   boolean deleteById(Id<Diary, Long> id);
+  
+  List<Diary> findAllByKeyword(Id<User, Long> id, String keyword, int offset, int limit);
 }

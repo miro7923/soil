@@ -4,6 +4,7 @@ import com.august.soil.api.SoilApplication;
 import com.august.soil.api.security.WithMockJwtAuthentication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -47,16 +48,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@Slf4j
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DiaryRestControllerTest {
   
   private MockMvc mockMvc;
-  
-  private Logger log = LoggerFactory.getLogger(getClass());
-  
-  @Autowired
-  ObjectMapper objectMapper;
   
   @Autowired
   public void setMockMvc(MockMvc mockMvc) {
@@ -125,8 +122,21 @@ class DiaryRestControllerTest {
   @DisplayName("사진 포함된 일기 삭제")
   void deleteDiary() throws Exception {
     mockMvc.perform(
-        delete("/api/diaries/34")
+        delete("/api/diaries/48")
       ).andDo(print())
       .andExpect(status().isOk());
+  }
+  
+  @Test
+  @WithMockJwtAuthentication
+  @DisplayName("쿼리 파라미터로 검색")
+  void search() throws Exception {
+    mockMvc.perform(
+      get("/api/diaries/search?keyword=test")
+    ).andDo(print())
+      .andExpect(status().isOk())
+      .andExpect(handler().handlerType(DiaryRestController.class))
+      .andExpect(handler().methodName("search"))
+      .andExpect(jsonPath("$.success", is(true)));
   }
 }

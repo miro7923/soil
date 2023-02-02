@@ -22,7 +22,7 @@ public class CreateDiaryRequest {
 
   @NotNull
   @ApiModelProperty(value = "카테고리 PK", required = true)
-  private Long category_id;
+  private Long categoryId;
   
   @NotEmpty
   @ApiModelProperty(value = "새로 작성할 일기 제목", required = true)

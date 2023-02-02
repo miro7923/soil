@@ -107,4 +107,14 @@ public class UserService {
     Optional<User> user = userRepository.findById(id);
     user.ifPresent(value -> value.setName(newName));
   }
+
+  /**
+   * db에서 회원정보 삭제(탈퇴처리)
+   * @param id 탈퇴하고자 하는 회원의 id 정보를 담은 객체
+   * @return 성공시 true, 실패시 false
+   */
+  @Transactional
+  public boolean deleteUser(Id<User, Long> id) {
+    return userRepository.deleteById(id);
+  }
 }

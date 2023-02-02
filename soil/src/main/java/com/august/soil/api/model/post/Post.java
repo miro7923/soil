@@ -1,6 +1,7 @@
 package com.august.soil.api.model.post;
 
 import com.august.soil.api.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -26,6 +27,7 @@ public class Post {
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id", nullable = false)
+  @JsonIgnore
   private final User user;
 
   @Column(nullable = false)
@@ -67,6 +69,6 @@ public class Post {
 
   @Override
   public String toString() {
-    return reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

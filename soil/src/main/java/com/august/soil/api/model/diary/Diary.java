@@ -33,13 +33,8 @@ public class Diary implements Serializable {
   @JsonIgnore
   private final User user;
   
-  /**
-   * 정석적인 방법대로면 지연로딩방식(fetch = LAZY)이어야 하나 프록시 데이터의 JSON 데이터 직렬화 문제를 해결하지 못해 일단 즉시로딩으로 둠
-   * TODO : 지연로딩방식으로 변경 가능한 방법을 찾으면 수정할 것
-   */
   @ManyToOne(fetch = EAGER)
   @JoinColumn(name = "category_id")
-  @JsonIgnore
   private Category category;
 
   @Column(nullable = false)
@@ -124,6 +119,6 @@ public class Diary implements Serializable {
 
   @Override
   public String toString() {
-    return reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

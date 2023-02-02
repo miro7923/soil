@@ -79,6 +79,6 @@ public class Category implements Serializable {
 
   @Override
   public String toString() {
-    return reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

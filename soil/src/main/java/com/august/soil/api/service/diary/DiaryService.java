@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Service
 // 기본은 readonly true로 설정하되, save 메서드와 같이 트랜젝션 변경이 필요한 메서드에 대해서만 readonly false로 설정한다.
 @Transactional(readOnly = true)
@@ -38,13 +40,19 @@ public class DiaryService {
   }
 
   /**
-   * 일기 전체 조회
+   * 사용자 한 명의 일기 전체 조회
    * @return List<Diary>
    */
   public List<Diary> findDiaries(Id<User, Long> id, int offset, int limit) {
-    Preconditions.checkArgument(id != null, "id must be provided.");
+    checkArgument(id != null, "id must be provided.");
     
     return diaryRepository.findAll(id, checkOffset(offset), checkLimit(limit));
+  }
+  
+  public List<Diary> findDiaries(Id<User, Long> id, String keyword, int offset, int limit) {
+    checkArgument(id != null, "id must be provided.");
+  
+    return diaryRepository.findAllByKeyword(id, keyword, checkOffset(offset), checkLimit(limit));
   }
   
   private int checkOffset(int offset) {
@@ -77,7 +85,7 @@ public class DiaryService {
       return false;
     }
   
-    Optional<Category> category = categoryRepository.findById(Id.of(Category.class, request.getCategory_id()));
+    Optional<Category> category = categoryRepository.findById(Id.of(Category.class, request.getCategoryId()));
     Diary diary = findDiary.get();
     diary.setCategory(category.get());
     diary.setTitle(request.getTitle());

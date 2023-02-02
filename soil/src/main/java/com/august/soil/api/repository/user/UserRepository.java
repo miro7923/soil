@@ -9,11 +9,13 @@ import java.util.Optional;
 
 public interface UserRepository {
     
-    User save(User member);
+  User save(User member);
 
-    List<User> findAll();
+  List<User> findAll();
 
-    Optional<User> findById(Id<User, Long> id);
+  Optional<User> findById(Id<User, Long> id);
     
-    Optional<User> findByEmail(Email email);
+  Optional<User> findByEmail(Email email);
+
+  boolean deleteById(Id<User, Long> id);
 }

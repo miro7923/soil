@@ -71,6 +71,6 @@ public class Email implements Serializable {
 
   @Override
   public String toString() {
-    return reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
   }
 }

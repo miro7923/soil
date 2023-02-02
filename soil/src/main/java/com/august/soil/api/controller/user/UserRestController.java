@@ -34,6 +34,14 @@ public class UserRestController {
     );
   }
 
+  @DeleteMapping("/users/remove")
+  @ApiOperation(value = "회원탈퇴. 성공응답을 받고나면 클라이언트단에 저장된 토큰 삭제할 것")
+  public ApiResult deleteUser(@AuthenticationPrincipal JwtAuthentication authentication) {
+    boolean result = userService.deleteUser(authentication.id);
+    String msg = result ? "회원탈퇴 성공" : "회원정보 없음";
+    return ApiResult.OK(msg);
+  }
+
   /**
    * 회원 전체 목록 조회
    * @return 가입된 회원 전체의 login id

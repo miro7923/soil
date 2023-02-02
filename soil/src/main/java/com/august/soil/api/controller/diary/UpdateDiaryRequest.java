@@ -18,7 +18,7 @@ public class UpdateDiaryRequest {
   
   @NotNull
   @ApiModelProperty(value = "카테고리 PK. 변화 없으면 기존값 그대로 보냄", required = true)
-  private Long category_id;
+  private Long categoryId;
   
   @NotEmpty
   @ApiModelProperty(value = "수정할 제목. 변화 없으면 기존값 그대로 보냄", required = true)

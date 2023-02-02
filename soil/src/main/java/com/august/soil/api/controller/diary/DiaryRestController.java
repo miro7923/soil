@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 
 import static com.august.soil.api.controller.ApiResult.*;
 import static com.august.soil.api.model.commons.AttachedFile.toAttachedFile;
+import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -50,7 +51,7 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 @RequestMapping("api")
 @Api(tags = "사용자 일기 APIs - 토큰에 사용자의 id 정보가 들어있기 때문에 URL에 따로 붙여서 보낼 필요 없음")
 public class DiaryRestController {
-
+  
   private final DiaryService diaryService;
   private final UserService userService;
   private final CategoryService categoryService;
@@ -74,30 +75,30 @@ public class DiaryRestController {
     List<Diary> findDiaries = diaryService.findDiaries(authentication.id, pageable.offset(), pageable.limit());
 //    Optional<User> findUser = userService.findById(authentication.id);
 //    Optional<Category> findCategory = categoryService.findCategory(Id.of(Category.class, 1L));
-
+    
     List<DiaryDto> collect = findDiaries.stream()
-      .map(DiaryDto::new)
-      .collect(Collectors.toList());
-
+                               .map(DiaryDto::new)
+                               .collect(Collectors.toList());
+    
     return OK(
-      new DiariesResult<>(collect.size(), collect)
+      new DiariesResult<>(authentication.id.getValue(), collect.size(), collect)
     );
   }
-
+  
   @PostMapping(value = "/diaries/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ApiOperation(value = "일기 작성")
   public ApiResult<?> uploadDiary(
     @AuthenticationPrincipal JwtAuthentication authentication,
     @ModelAttribute CreateDiaryRequest param,
     @RequestPart(required = false) MultipartFile file
-    ) throws IOException {
+  ) throws IOException {
     Optional<User> user = userService.findById(authentication.id);
-    Optional<Category> category = categoryService.findCategory(Id.of(Category.class, param.getCategory_id()));
+    Optional<Category> category = categoryService.findCategory(Id.of(Category.class, param.getCategoryId()));
 //    Diary diary = diaryService.upload(
 //      // TODO : Optional member 유효성 검사 후 파라미터로 넣게 수정
 //      new Diary(member.get(), category.get(), param.getTitle(), param.getContent(), param.getPrice())
 //    );
-  
+    
     // TODO : 비동기 업로드 처리 좀 더 공부해 보고 완성하기!!!!
 //    Diary diary = new Diary(user.get(), category.get(), param.getTitle(), param.getContent(), null, param.getPrice());
 ////    AtomicReference<Diary> diary = new AtomicReference<>();
@@ -124,15 +125,17 @@ public class DiaryRestController {
 //    return () -> OK(
 //      new CompletableFuture<>()
 //    );
-  
-    Optional<String> photoUrl = uploadDiaryPhoto(new AttachedFile(file.getOriginalFilename(), file.getContentType(), file.getBytes()));
-    if (photoUrl.isEmpty())
-      return ERROR("사진 업로드 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.", HttpStatus.BAD_REQUEST);
-
+    
+    Optional<String> photoUrl = empty();
+    if (toAttachedFile(file).isPresent())
+      photoUrl = uploadDiaryPhoto(new AttachedFile(file.getOriginalFilename(), file.getContentType(), file.getBytes()));
+//    if (photoUrl.isEmpty())
+//      return ERROR("사진 업로드 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.", HttpStatus.BAD_REQUEST);
+    
     return OK(
       new DiaryDto(
         diaryService.upload(
-          new Diary(user.get(), category.get(), param.getTitle(), param.getContent(), photoUrl.get(), param.getPrice())
+          new Diary(user.get(), category.get(), param.getTitle(), param.getContent(), photoUrl.orElse(null), param.getPrice())
         )
       )
     );
@@ -155,14 +158,14 @@ public class DiaryRestController {
   @ApiOperation(value = "사용자의 일기 하나 조회")
   public ApiResult<?> getDiary(@PathVariable(value = "diaryId") Long diaryId) {
     Optional<Diary> diary = diaryService.findDiary(Id.of(Diary.class, diaryId));
-
+    
     if (diary.isEmpty()) {
       return ERROR("해당하는 일기를 찾을 수 없습니다. 일기의 ID를 확인해 주세요.", HttpStatus.NOT_FOUND);
     }
-
+    
     return OK(new DiaryDto(diary.get()));
   }
-
+  
   @PatchMapping("/diaries/{diaryId}")
   @ApiOperation(value = "작성한 일기 수정")
   public ApiResult<?> updateDiary(
@@ -174,12 +177,12 @@ public class DiaryRestController {
     if (!diaryService.updateDiary(Id.of(Diary.class, diaryId), request)) {
       return ERROR("일기 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
     }
-
+    
     return OK(
       diaryService.findDiary(Id.of(Diary.class, diaryId)).get()
     );
   }
-
+  
   @DeleteMapping("/diaries/{diaryId}")
   @ApiOperation(value = "작성한 일기 삭제")
   public ApiResult<?> deleteDiary(@PathVariable(value = "diaryId") Long diaryId) {
@@ -187,15 +190,38 @@ public class DiaryRestController {
     if (!diaryService.deleteDiary(Id.of(Diary.class, diaryId))) {
       return ERROR("일기 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
     }
-
+    
     return OK("일기 삭제 성공");
   }
   
   private void deletePhoto(Id<Diary, Long> id) {
     Optional<Diary> diary = diaryService.findDiary(id);
     log.info("diary to delete: {}", diary);
-    diary.ifPresent(value ->
-      s3Client.delete(value.getPhotoUrl())
+    diary.ifPresent(value -> {
+      if (value.getPhotoUrl() != null)
+        s3Client.delete(value.getPhotoUrl());
+    });
+  }
+  
+  @GetMapping("/diaries/search")
+  @ApiOperation(value = "키워드로 일기 검색")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "keyword", dataTypeClass = String.class, paramType = "query", defaultValue = "", value = "검색어"),
+    @ApiImplicitParam(name = "offset", dataTypeClass = Integer.class, paramType = "query", defaultValue = "0", value = "페이징 offset"),
+    @ApiImplicitParam(name = "limit", dataTypeClass = Integer.class, paramType = "query", defaultValue = "10", value = "최대 조회 갯수(max = 10)")
+  })
+  public ApiResult<DiariesResult<List<DiaryDto>>> search(
+    @AuthenticationPrincipal JwtAuthentication authentication,
+    @RequestParam(value = "keyword") String keyword,
+    Pageable pageable
+  ) {
+    List<Diary> diaries = diaryService.findDiaries(authentication.id, keyword, pageable.offset(), pageable.limit());
+    List<DiaryDto> collect = diaries.stream()
+                               .map(DiaryDto::new)
+                               .collect(Collectors.toList());
+  
+    return OK(
+      new DiariesResult<>(authentication.id.getValue(), collect.size(), collect)
     );
   }
 }

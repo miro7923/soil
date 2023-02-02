@@ -69,4 +69,23 @@ public class JpaUserRepository implements UserRepository {
     
     return ofNullable(resultList.get(0));
   }
+
+  /**
+   * 회원 아이디로 db에서 회원정보 삭제
+   * @param id 탈퇴시키고자 하는 회원의 id정보를 담은 객체
+   * @return 성공시 true, 실패시 false 리턴
+   */
+  @Override
+  public boolean deleteById(Id<User, Long> id) {
+    User user = em.find(User.class, id.getValue());
+
+    if (user == null) {
+      // db에 회원정보가 존재하지 않으면 false
+      return false;
+    }
+
+    // 삭제에 성공하면 true
+    em.remove(user);
+    return true;
+  }
 }
