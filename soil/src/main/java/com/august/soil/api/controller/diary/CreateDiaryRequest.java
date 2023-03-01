@@ -2,13 +2,10 @@ package com.august.soil.api.controller.diary;
 
 import com.august.soil.api.model.diary.Diary;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -23,6 +20,10 @@ public class CreateDiaryRequest {
   @NotNull
   @ApiModelProperty(value = "카테고리 PK", required = true)
   private Long categoryId;
+  
+  @NotNull
+  @ApiModelProperty(value = "카테고리 이름", required = true)
+  private String categoryName;
   
   @NotEmpty
   @ApiModelProperty(value = "새로 작성할 일기 제목", required = true)

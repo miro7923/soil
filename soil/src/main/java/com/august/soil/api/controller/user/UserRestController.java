@@ -44,13 +44,13 @@ public class UserRestController {
 
   /**
    * 회원 전체 목록 조회
-   * @return 가입된 회원 전체의 login id
+   * @return 가입된 회원 전체의 login category_id
    */
 //  @GetMapping("/users/list")
 //  public MemberResult getMembers() {
 //    List<User> findMembers = userService.findUsers();
 //    List<MemberDto> collect = findMembers.stream()
-//      .map(m -> new MemberDto(m.getId(), m.getNickname()))
+//      .map(m -> new MemberDto(m.getCategory_id(), m.getNickname()))
 //      .collect(Collectors.toList());
 //
 //    return new MemberResult(findMembers.size(), collect);

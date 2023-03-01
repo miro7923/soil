@@ -1,7 +1,9 @@
 package com.august.soil.api.service.category;
 
+import com.august.soil.api.controller.category.UpdateCategoryRequest;
 import com.august.soil.api.model.category.Category;
 import com.august.soil.api.model.commons.Id;
+import com.august.soil.api.model.user.User;
 import com.august.soil.api.repository.category.JpaCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class CategoryService {
    */
   @Transactional
   public Category add(Category category) {
-    validateDuplicatedCategory(category.getName());
+    validateDuplicatedCategory(Id.of(User.class, category.getUser().getId()), category.getName());
     categoryRepository.save(category);
     return category;
   }
@@ -35,36 +37,61 @@ public class CategoryService {
    * 중복 카테고리 검사
    * @param name 중복검사를 시행하려는 카테고리명
    */
-  private void validateDuplicatedCategory(String name) {
-    List<Category> findMembers = categoryRepository.findByName(name);
-    if (!findMembers.isEmpty()) {
+  private void validateDuplicatedCategory(Id<User, Long> id, String name) {
+    List<Category> findDupCategory = categoryRepository.findByName(id, name);
+    if (!findDupCategory.isEmpty()) {
       throw new IllegalStateException("이미 존재하는 카테고리입니다.");
     }
   }
 
   /**
    * PK로 카테고리 검색
-   * @param id 찾고자 하는 카테고리 PK
+   * @param id 카테고리 PK
    * @return Optional로 감싼 카테고리 객체
    */
   public Optional<Category> findCategory(Id<Category, Long> id) {
-        return categoryRepository.findById(id);
-    }
+    return categoryRepository.findById(id);
+  }
 
   /**
    * name으로 카테고리 검색
+   * @param id 카테고리의 소유자인 회원 id
    * @param name 찾고자 하는 카테고리명
    * @return 찾은 카테고리 목록
    */
-  public List<Category> findByName(String name) {
-        return categoryRepository.findByName(name);
+  public List<Category> findByName(Id<User, Long> id, String name) {
+        return categoryRepository.findByName(id, name);
     }
 
   /**
    * 카테고리 전체 조회
    * @return 전체 카테고리 목록
    */
-  public List<Category> findCategories() {
-        return categoryRepository.findAll();
+  public List<Category> findCategories(Id<User, Long> id) {
+        return categoryRepository.findAll(id);
+  }
+
+  /**
+   * 카테고리 이름 수정
+   * @param id 수정하고자 하는 카테고리 PK
+   */
+  @Transactional
+  public boolean updateCategory(Category request) {
+    Optional<Category> findCategory = categoryRepository.findById(Id.of(Category.class, request.getId()));
+    if (findCategory.isEmpty()) {
+      // 카테고리 정보 없음
+      return false;
     }
+
+    // 카테고리 정보 있고 이름 수정 성공
+    findCategory.get().setName(request.getName());
+    return true;
+  }
+
+  /**
+   * 카테고리 삭제
+   */
+  @Transactional
+  public boolean deleteCategory(Id<Category, Long> id) { return categoryRepository.deleteById(id); }
 }
+

@@ -44,13 +44,13 @@ public class DiaryService {
    * @return List<Diary>
    */
   public List<Diary> findDiaries(Id<User, Long> id, int offset, int limit) {
-    checkArgument(id != null, "id must be provided.");
+    checkArgument(id != null, "category_id must be provided.");
     
     return diaryRepository.findAll(id, checkOffset(offset), checkLimit(limit));
   }
   
   public List<Diary> findDiaries(Id<User, Long> id, String keyword, int offset, int limit) {
-    checkArgument(id != null, "id must be provided.");
+    checkArgument(id != null, "category_id must be provided.");
   
     return diaryRepository.findAllByKeyword(id, keyword, checkOffset(offset), checkLimit(limit));
   }

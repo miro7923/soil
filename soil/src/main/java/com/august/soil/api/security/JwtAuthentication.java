@@ -20,7 +20,7 @@ public class JwtAuthentication {
   public final Email email;
   
   public JwtAuthentication(Long id, String name, Email email) {
-    checkArgument(id != null, "id must be provided.");
+    checkArgument(id != null, "category_id must be provided.");
     checkArgument(name != null, "name must be provided.");
     checkArgument(email != null, "email must be provided.");
     

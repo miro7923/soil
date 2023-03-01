@@ -81,9 +81,7 @@ public class Diary implements Serializable {
   /**
    * 개별 수정이 필요한 필드들에 대해서만 setter 생성
    */
-  public void setCategory(Category category) {
-    this.category = category;
-  }
+  public void setCategory(Category category) { this.category = category; }
   
   public void setTitle(String title) {
     this.title = title;

@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.*;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 /**
- * DB 테이블 내 PK로 보통 Long 타입의 숫자를 쓰게 되는데 이걸 그냥 Long id;라고 선언해 두면
+ * DB 테이블 내 PK로 보통 Long 타입의 숫자를 쓰게 되는데 이걸 그냥 Long category_id;라고 선언해 두면
  * 메서드의 인자값으로 id값을 넣어줄 때 어느 객체의 id인지 헷갈리는 경우가 많다.
  * 그래서 제네릭을 통해 클래스 타입과 id값을 담을 데이터타입을 명시적으로 선언해 주면 코드상에서 어느 객체의 id를 전달하고자 하는지 명확하게 알 수 있다.
  * @param <R> 클래스 타입(ex. User.class)

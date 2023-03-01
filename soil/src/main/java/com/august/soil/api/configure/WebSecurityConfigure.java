@@ -85,7 +85,7 @@ public class WebSecurityConfigure {
         // url에서 targetId를 추출하기 위해 정규식 처리
         Matcher matcher = pattern.matcher(url);
         long id = matcher.matches() ? NumberUtils.toLong(matcher.group(1), -1) : -1;
-        log.info("@@@@@ id: {}", id);
+        log.info("@@@@@ category_id: {}", id);
         return Id.of(User.class, id);
       }
     );
@@ -145,8 +145,8 @@ public class WebSecurityConfigure {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
     
-    corsConfiguration.addAllowedOrigin("*");
-    corsConfiguration.addAllowedOriginPattern("*");
+//    corsConfiguration.addAllowedOrigin("*");
+    corsConfiguration.addAllowedOriginPattern("https://soildiary.site");
     corsConfiguration.addAllowedHeader("*");
     corsConfiguration.addAllowedMethod("*");
     corsConfiguration.setAllowCredentials(true);

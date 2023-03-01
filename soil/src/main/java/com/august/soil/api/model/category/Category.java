@@ -27,12 +27,12 @@ public class Category implements Serializable {
   private final Long id;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   @JsonIgnore
   private final User user;
 
   @Column(nullable = false)
-  private final String name;
+  private String name;
   
   public Category() {
     this.id = null;
@@ -40,18 +40,11 @@ public class Category implements Serializable {
     this.name = null;
   }
 
-  public Category(User user, String name) {
-      this(null, user, name);
-  }
-  
   /**
    * 생성자 단계에서 유효성 검증 후 객체가 생성될 수 있도록 함
-   * @param id 카테고리 PK
-   * @param user 회원정보를 담은 객체
    * @param name 새로 생성될 카테고리의 이름
    */
   public Category(Long id, User user, String name) {
-    checkArgument(user != null, "user must be provided.");
     checkArgument(name != null, "name must be provided.");
     checkArgument(
       name.length() >= 1 && name.length() <= 10,
@@ -61,20 +54,28 @@ public class Category implements Serializable {
     this.id = id;
     this.user = user;
     this.name = name;
+
   }
+  public Category(User user, String name) {
+    this(null, user, name);
+  }
+
+  /**
+   * 개별 수정이 필요한 필드에 setter 생성
+   */
+  public void setName(String name) { this.name = name; }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Category category = (Category) o;
-    return Objects.equals(id, category.id) && Objects.equals(user, category.user) &&
-      Objects.equals(name, category.name);
+    return Objects.equals(id, category.id)&&Objects.equals(name, category.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, user, name);
+    return Objects.hash(id, name);
   }
 
   @Override

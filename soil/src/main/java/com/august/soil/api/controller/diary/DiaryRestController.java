@@ -49,7 +49,7 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api")
-@Api(tags = "사용자 일기 APIs - 토큰에 사용자의 id 정보가 들어있기 때문에 URL에 따로 붙여서 보낼 필요 없음")
+@Api(tags = "사용자 일기 APIs - 토큰에 사용자의 category_id 정보가 들어있기 때문에 URL에 따로 붙여서 보낼 필요 없음")
 public class DiaryRestController {
   
   private final DiaryService diaryService;
@@ -73,9 +73,7 @@ public class DiaryRestController {
     @AuthenticationPrincipal JwtAuthentication authentication, Pageable pageable
   ) {
     List<Diary> findDiaries = diaryService.findDiaries(authentication.id, pageable.offset(), pageable.limit());
-//    Optional<User> findUser = userService.findById(authentication.id);
-//    Optional<Category> findCategory = categoryService.findCategory(Id.of(Category.class, 1L));
-    
+
     List<DiaryDto> collect = findDiaries.stream()
                                .map(DiaryDto::new)
                                .collect(Collectors.toList());
@@ -93,7 +91,7 @@ public class DiaryRestController {
     @RequestPart(required = false) MultipartFile file
   ) throws IOException {
     Optional<User> user = userService.findById(authentication.id);
-    Optional<Category> category = categoryService.findCategory(Id.of(Category.class, param.getCategoryId()));
+    List<Category> category = categoryService.findByName(authentication.id, param.getCategoryName());
 //    Diary diary = diaryService.upload(
 //      // TODO : Optional member 유효성 검사 후 파라미터로 넣게 수정
 //      new Diary(member.get(), category.get(), param.getTitle(), param.getContent(), param.getPrice())
@@ -135,7 +133,7 @@ public class DiaryRestController {
     return OK(
       new DiaryDto(
         diaryService.upload(
-          new Diary(user.get(), category.get(), param.getTitle(), param.getContent(), photoUrl.orElse(null), param.getPrice())
+          new Diary(user.get(), category.get(0), param.getTitle(), param.getContent(), photoUrl.orElse(null), param.getPrice())
         )
       )
     );
