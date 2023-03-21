@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @WithSecurityContext(factory = WithMockJwtAuthenticationSecurityContextFactory.class)
 public @interface WithMockJwtAuthentication {
   
-  long id() default 2L;
+  long id() default 3L;
   
   String name() default "tester00";
   
