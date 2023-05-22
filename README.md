@@ -1,5 +1,5 @@
 # 소비일기(SOIL)
-<p align="center"><img src="soil-preview-img.png" width="600"></p>
+<p align="center"><img src="devlog/soil-preview-img.png" width="600"></p>
 
 * 나의 소비기록을 기록하고 공유하는 안드로이드 앱 소비일기 개발 프로젝트 백엔드(서버) 소스코드 저장소
 * 기간 : 2022.08 ~ 2023.05
