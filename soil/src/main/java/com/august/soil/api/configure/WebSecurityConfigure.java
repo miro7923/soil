@@ -55,7 +55,16 @@ public class WebSecurityConfigure {
   
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return web -> web.ignoring().antMatchers("/swagger-resources", "/static/**", "/templates/**");
+    return web -> web.ignoring().antMatchers(
+      "/swagger-resources",
+      "/v2/api-docs",
+      "/configuration/ui",
+      "/configuration/security",
+      "/swagger-ui.html",
+      "/webjars/**",
+      "/swagger/**",
+      "/static/**",
+      "/templates/**");
   }
   
   @Bean
@@ -124,9 +133,10 @@ public class WebSecurityConfigure {
       .authorizeRequests()
         .antMatchers("api/auth").permitAll()
 //        .antMatchers("api/users/join").permitAll()
-        .antMatchers("api/**").hasRole(Role.USER.name())
-        .accessDecisionManager(accessDecisionManager())
-        .anyRequest().permitAll()
+      .antMatchers("/swagger-resources/**").permitAll()
+      .antMatchers("api/**").hasRole(Role.USER.name())
+      .accessDecisionManager(accessDecisionManager())
+      .anyRequest().permitAll()
         .and()
       .cors()
         .configurationSource(corsConfigurationSource())
@@ -147,6 +157,7 @@ public class WebSecurityConfigure {
     
 //    corsConfiguration.addAllowedOrigin("*");
     corsConfiguration.addAllowedOriginPattern("https://soildiary.site");
+//    corsConfiguration.addAllowedOriginPattern("*");
     corsConfiguration.addAllowedHeader("*");
     corsConfiguration.addAllowedMethod("*");
     corsConfiguration.setAllowCredentials(true);

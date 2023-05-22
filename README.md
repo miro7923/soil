@@ -1,6 +1,8 @@
 # 소비일기(SOIL)
+<p align="center"><img src="soil-preview-img.png" width="600"></p>
+
 * 나의 소비기록을 기록하고 공유하는 안드로이드 앱 소비일기 개발 프로젝트 백엔드(서버) 소스코드 저장소
-* 기간 : 2022.08.21 ~ 진행 중
+* 기간 : 2022.08 ~ 2023.05
 * 환경 : 안드로이드 웹뷰, RESTful API
 * 개발 툴 : IntelliJ IDEA, MySQL Workbench 8.0.20
 * 사용 언어 : Java 11, MySQL 8
@@ -32,8 +34,6 @@
     - AWS S3로 파일 업로드 기능(개발완료)
     - AWS EC2로 서버 배포(개발완료)
 * Spring Security와 JWT Token을 적용한 사용자 인증/인가 시스템 개발(개발완료)
-* 앱 푸시
-* CI/CD
 ```
 
 # ERD 다이어그램
