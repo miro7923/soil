@@ -8,17 +8,17 @@
 * 사용 기술 : Spring Boot, JPA, Gradle, Open API(네이버 로그인 API), AWS(EC2, RDS, S3), Swagger
 
 # Application UI
-<p align="center"><img src="devlog/soil-preview-img.png" width="600"></p>
+<p align="center"><img src="devlog/soil-preview-img.png" width="800"></p>
 
 # Architecture
 <p align="center"><img src="devlog/architecture.png" width="600"></p>
 
 # ERD 다이어그램
-<p align="center"><img src="devlog/soil-erd.png" width="600"></p>
+<p align="center"><img src="devlog/soil-erd.png" width="800"></p>
 
 # 주요 기능
 * [각 기능별 비즈니스 로직](devlog/soil-business-logic.md)
-* [각 기능별 Use Case](devlob/soil-use-case.md)<br><br><br>
+* [각 기능별 Use Case](devlog/soil-use-case.md)<br><br><br>
 
 ## 사용자
 1. 회원가입 / 탈퇴
