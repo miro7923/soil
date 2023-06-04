@@ -26,3 +26,13 @@
 3. 일기 작성 / 수정 / 삭제 / 조회
 4. 키워드로 게시글 검색
 5. 카테고리 생성 / 수정 / 삭제 / 조회
+
+# 개발과정
+1. [Mac apache httpd로 웹 서버 구축하기](devlog/2022-08-21-soil-dev-log-01.md)
+2. [DB 테이블 설계와 생성(with JPA)](devlog/2022-08-24-soil-dev-log-02.md)
+3. [회원 엔티티 개발(with JPA)](devlog/2022-08-25-soil-dev-log-03.md)
+4. [API 서버 개발_일기 목록](devlog/2022-08-27-soil-dev-log-04.md)
+5. [서버에서 CORS 차단문제 해결하기](devlog/2022-08-30-soil-dev-log-05.md)
+6. [로그인/로그아웃 API 개발](devlog/2022-08-30-soil-dev-log-06.md)
+7. [CORS를 해결하기 위한 여정](devlog/2022-09-04-soil-dev-log-07.md)
+8. [AWS 서버에 무료로 HTTPS 적용하기](https://velog.io/@miro7923/AWS-EC2-서버-도메인-없이-https-붙이기)
